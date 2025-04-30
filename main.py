@@ -1,5 +1,5 @@
 from environment import TradingEnvironment
-from training import DDQNAgent
+from ddqn_agent import DDQNAgent
 from model import Dueling
 from replay_memory import ReplayMemory, Transition
 from data_processing import stock_reader
