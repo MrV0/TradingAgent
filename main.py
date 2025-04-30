@@ -28,8 +28,7 @@ N_EPISODES = 5
 INITIAL_TRAIN_START_DATE = datetime.datetime.strptime('9/12/2017 09:30', '%m/%d/%Y %H:%M')
 
 ## Agent
-memory = ReplayMemory()
-agent = DDQNAgent(actor_net=Dueling, memory=memory)
+agent = DDQNAgent(actor_net=Dueling, memory=ReplayMemory())
 
 eps = EPS_START
 act_dict = {0: -1, 1: 1, 2: 0}
