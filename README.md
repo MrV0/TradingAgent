@@ -22,6 +22,7 @@ This project implements an intraday trading agent using a Dueling Double DQN arc
 └── README.md          # Project documentation  
 
 🔧 Installation & Setup
+
 1️⃣ Clone the repository
 git clone https://github.com/MrV0/TradingAgent.git
 
