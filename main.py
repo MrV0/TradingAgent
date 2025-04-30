@@ -53,7 +53,7 @@ for episode in range(1, N_EPISODES + 1):
     train_start_date = INITIAL_TRAIN_START_DATE
 
     # Create environments only once per episode
-    reader = stock_reader(stock='', # the name of file with the data
+    reader = stock_reader(stock='dataset_CHK', # the name of file with the data
                           train_start=train_start_date.strftime('%m/%d/%Y %H:%M'),
                           train_days=DAYS_PER_EPISODE,
                           trade_days=DAYS_PER_EPISODE)
