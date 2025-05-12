@@ -120,64 +120,64 @@ class TradingEnvironment:
         else:
             info = None
 
-            # Finalize all remaining positions if the episode is done
-            if self.done:
-                self.reward_offset = 0
-                for position in self.long_positions[:]:
-                    self.finalize_trade(position)
-                for position in self.short_positions[:]:
-                    self.finalize_trade(position)
+        # Finalize all remaining positions if the episode is done
+        if self.done:
+            self.reward_offset = 0
+            for position in self.long_positions[:]:
+                self.finalize_trade(position)
+            for position in self.short_positions[:]:
+                self.finalize_trade(position)
 
-                self.store["action_store"].append(self.current_act)
-                self.store["reward_store"].append(self.current_reward)
-                self.store["close_price"].append(self.current_price)
-                self.long_positions = []
-                self.short_positions = []
-                self.store["position"].append(0)
-                self.store["pnl"].append(self.pnl)
-                self.store["portfolio"].append(self.portfolio)
-                if self.diagram:
+            self.store["action_store"].append(self.current_act)
+            self.store["reward_store"].append(self.current_reward)
+            self.store["close_price"].append(self.current_price)
+            self.long_positions = []
+            self.short_positions = []
+            self.store["position"].append(0)
+            self.store["pnl"].append(self.pnl)
+            self.store["portfolio"].append(self.portfolio)
+            if self.diagram:
 
-                    fig, axs = plt.subplots(3, 1, figsize=(14, 18))
+                fig, axs = plt.subplots(3, 1, figsize=(14, 18))
 
-                    for ax in axs:
-                        ax.set_facecolor('#e5e5e5')
+                for ax in axs:
+                    ax.set_facecolor('#e5e5e5')
 
-                        # Portfolio Value
-                    axs[0].plot(self.store['portfolio'], label='Portfolio Value', color='#6a4145',
-                                linewidth=2)
-                    axs[0].axhline(y=self.bank, color='#171717', linestyle='--', linewidth=1,
-                                   label='Initial Capital')
+                    # Portfolio Value
+                axs[0].plot(self.store['portfolio'], label='Portfolio Value', color='#6a4145',
+                            linewidth=2)
+                axs[0].axhline(y=self.bank, color='#171717', linestyle='--', linewidth=1,
+                               label='Initial Capital')
 
-                    axs[0].set_title('Portfolio Wealth for F Stock', fontsize=14)
-                    axs[0].legend(fontsize=10)
-                    axs[0].grid(color='white', alpha=0.6)
+                axs[0].set_title('Portfolio Wealth for F Stock', fontsize=14)
+                axs[0].legend(fontsize=10)
+                axs[0].grid(color='white', alpha=0.6)
 
-                    # Close Price  Buy/Sell Signals
-                    prices = self.store["close_price"]
-                    actions = self.store["action_store"]
-                    buy_signals = [price if action == 1 else np.nan for price, action in zip(prices, actions)]
-                    sell_signals = [price if action == -1 else np.nan for price, action in zip(prices, actions)]
+                # Close Price  Buy/Sell Signals
+                prices = self.store["close_price"]
+                actions = self.store["action_store"]
+                buy_signals = [price if action == 1 else np.nan for price, action in zip(prices, actions)]
+                sell_signals = [price if action == -1 else np.nan for price, action in zip(prices, actions)]
 
-                    axs[1].plot(prices, label='Asset Price', color='#0055ff', linewidth=1.5)
-                    axs[1].scatter(range(len(buy_signals)), buy_signals, label='Buy', marker='^', color='#22c917',
-                                   s=80)
-                    axs[1].scatter(range(len(sell_signals)), sell_signals, label='Sell', marker='v', color='#c92217',
-                                   s=80)
-                    axs[1].set_title("Trade Signals", fontsize=14)
-                    axs[1].legend(fontsize=10)
-                    axs[1].grid(color='white', alpha=0.6)
+                axs[1].plot(prices, label='Asset Price', color='#0055ff', linewidth=1.5)
+                axs[1].scatter(range(len(buy_signals)), buy_signals, label='Buy', marker='^', color='#22c917',
+                               s=80)
+                axs[1].scatter(range(len(sell_signals)), sell_signals, label='Sell', marker='v', color='#c92217',
+                               s=80)
+                axs[1].set_title("Trade Signals", fontsize=14)
+                axs[1].legend(fontsize=10)
+                axs[1].grid(color='white', alpha=0.6)
 
-                    # Net Position
-                    axs[2].plot(self.store["position"], label='Positions', color='#c19193',
-                                linewidth=1.5)
-                    axs[2].set_title("Positions Over Time", fontsize=14)
-                    axs[2].set_xlabel("Steps", fontsize=12)
-                    axs[2].grid(color='white', alpha=0.6)
-                    axs[2].legend(fontsize=10)
+                # Net Position
+                axs[2].plot(self.store["position"], label='Positions', color='#c19193',
+                            linewidth=1.5)
+                axs[2].set_title("Positions Over Time", fontsize=14)
+                axs[2].set_xlabel("Steps", fontsize=12)
+                axs[2].grid(color='white', alpha=0.6)
+                axs[2].legend(fontsize=10)
 
-                    plt.tight_layout()
-                    plt.show()
+                plt.tight_layout()
+                plt.show()
 
         return self.current_state, self.current_reward, self.done, info
 
